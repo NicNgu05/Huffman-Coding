@@ -1,72 +1,6 @@
 #include "huffman.hpp"
 
-/*
-void print_code_table(const std::unordered_map<char, std::string>& codes) {
-    for (auto& [ch, code] : codes) {
-        if (!code.empty()) {
-            std::cout << "  [" << ch << "]: " << code << "\n";
-        } else {
-            std::cout << "  Input is empty\n";
-        }
-        
-    }
-}
 
-// used to test huffman coding algorithm
-void test_huffman_code (const std::string& input) {
-    huffman_tree huff;
-
-    std::cout << "\nInput: " << input << "(" << input.size() << ")\n";
-
-
-    std::cout << "\n*** Frequencies ***\n";
-    auto freqs = huff.frequency_data(input);
-    for (auto& [ch, count] : freqs) {
-        std::cout << "  [" << ch << "]: " << count << "\n";
-    }
-
-
-    std::cout << "\n*** Tree Build ***\n";
-    huff.build_huffman_tree(freqs);
-
-    if (!freqs.empty()) {
-        std::cout << "  root frequency: " << huff.root->frequency << "\n";
-    } else {
-        std::cout << "  Input is empty \n";
-    }
-    
-
-    std::cout << "\n*** Codes ***\n";
-    std::unordered_map<char, std::string> code_table;
-    huff.huffman_codes(huff.root, "", code_table);
-    print_code_table(code_table);
-
-
-    std::cout << "\n*** Encodes ***\n";
-    std::string encoded = huff.encode(input);
-    std::string excepted;
-    for (auto& ch : input) {
-        excepted += code_table.at(ch);
-    }
-    assert(encoded == excepted);
-    std::cout << "  encoded: " << encoded << " (" << encoded.size() << " bits)\n";
-
-
-    std::cout << "\n*** Pack Encoded Output ***\n";
-    int valid_bits = 0;
-    auto packed_output = huff.pack(encoded, valid_bits);
-    std::cout << "  Packed: " << packed_output.size() << " (" << valid_bits << " last byte total)\n";
-
-    std::cout << "\n*** Unpack Encoded Output ***\n";
-    auto unpacked_output = huff.unpack(packed_output, valid_bits);
-    std::cout << "  Unpacked: " <<  unpacked_output << " (" << unpacked_output.size() << " bits)\n";
-
-    std::cout << "\n*** Decodes ***\n";
-    std::string decoded = huff.decode(encoded);
-    std::cout << "  decoded: " << decoded << "(" << decoded.size() << ")\n";
-    assert(decoded == input);
-}
-    */
 
 
 static std::string read_file(const std::string& path) {
@@ -183,35 +117,101 @@ int main(int argc, char* argv[]) {
 
 
 
+// used to test if Huffman Algorithm worked properly
+    
+/*
+void print_code_table(const std::unordered_map<char, std::string>& codes) {
+    for (auto& [ch, code] : codes) {
+        if (!code.empty()) {
+            std::cout << "  [" << ch << "]: " << code << "\n";
+        } else {
+            std::cout << "  Input is empty\n";
+        }
+        
+    }
+}
 
-    // used to test if Huffman Algorithm worked properly
-  
-     /*
+// used to test huffman coding algorithm
+void test_huffman_code (const std::string& input) {
     huffman_tree huff;
-    int num = 1;
-    std::vector<std::string> cases = {
-        "awadsdawdacsax",
-        "aaaab",
-        "aaaa",
-        "a",
-        "abababab",
-        "abcdefg",
-        "mississippimississippi",
-        "hello, world!",
-        "adwnoadnoaodin",
-        " ",
-        "12039djdcj=>/a!mcsd",
-        "aaaaaaaaaaaaaaaaaabbb",
-        "",
-        "ggffeeddccbbaa"
-    };
 
-    for (auto& input : cases) {
-        std::cout << "\n******************* TEST CASE " << num << " *******************\n";
-        test_huffman_code(input);
-        num++;
+    std::cout << "\nInput: " << input << "(" << input.size() << ")\n";
+
+    std::cout << "\n*** Frequencies ***\n";
+    auto freqs = huff.frequency_data(input);
+    for (auto& [ch, count] : freqs) {
+        std::cout << "  [" << ch << "]: " << count << "\n";
     }
 
-    return 0;
+
+    std::cout << "\n*** Tree Build ***\n";
+    huff.build_huffman_tree(freqs);
+
+    if (!freqs.empty()) {
+        std::cout << "  root frequency: " << huff.root->frequency << "\n";
+    } else {
+        std::cout << "  Input is empty \n";
+    }
+    
+
+    std::cout << "\n*** Codes ***\n";
+    std::unordered_map<char, std::string> code_table;
+    huff.huffman_codes(huff.root, "", code_table);
+    print_code_table(code_table);
+
+
+    std::cout << "\n*** Encodes ***\n";
+    std::string encoded = huff.encode(input);
+    std::string excepted;
+    for (auto& ch : input) {
+        excepted += code_table.at(ch);
+    }
+    assert(encoded == excepted);
+    std::cout << "  encoded: " << encoded << " (" << encoded.size() << " bits)\n";
+
+
+    std::cout << "\n*** Pack Encoded Output ***\n";
+    int valid_bits = 0;
+    auto packed_output = huff.pack(encoded, valid_bits);
+    std::cout << "  Packed: " << packed_output.size() << " (" << valid_bits << " last byte total)\n";
+
+    std::cout << "\n*** Unpack Encoded Output ***\n";
+    auto unpacked_output = huff.unpack(packed_output, valid_bits);
+    std::cout << "  Unpacked: " <<  unpacked_output << " (" << unpacked_output.size() << " bits)\n";
+
+    std::cout << "\n*** Decodes ***\n";
+    std::string decoded = huff.decode(encoded);
+    std::cout << "  decoded: " << decoded << "(" << decoded.size() << ")\n";
+    assert(decoded == input);
+}
+    
+    int main() {
+        huffman_tree huff;
+        int num = 1;
+        std::vector<std::string> cases = {
+            "awadsdawdacsax",
+            "aaaab",
+            "aaaa",
+            "a",
+            "abababab",
+            "abcdefg",
+            "mississippimississippi",
+            "hello, world!",
+            "adwnoadnoaodin",
+            " ",
+            "12039djdcj=>/a!mcsd",
+            "aaaaaaaaaaaaaaaaaabbb",
+            "",
+            "ggffeeddccbbaa"
+        };
+
+        for (auto& input : cases) {
+            std::cout << "\n******************* TEST CASE " << num << " *******************\n";
+            test_huffman_code(input);
+            num++;
+        }
+
+        return 0;
+    }
     */
 }

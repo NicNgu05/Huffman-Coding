@@ -27,38 +27,42 @@ struct Node {
 };
 
 struct huffman_tree {
-        ~huffman_tree();
-        void destroy(Node* node);
+    ~huffman_tree();
+    void destroy(Node* node);
 
-        //root
-        Node* root = nullptr; 
-        
-        //used to create the data for the frequency table 
-        std::unordered_map<char, int> frequency_data (const std::string& input);
+    //root
+    Node* root = nullptr; 
+    
+    //used to create the data for the frequency table 
+    std::unordered_map<char, int> frequency_data (const std::string& input);
 
-        //used to build the nodes using the freqency table as a parameter 
-        void build_huffman_tree (const std::unordered_map<char, int>& frequency_data);
+    //used to build the nodes using the freqency table as a parameter 
+    void build_huffman_tree (const std::unordered_map<char, int>& frequency_data);
 
-        //used to store the code for each char  
-        void huffman_codes (Node* node, std::string code, std::unordered_map<char, std::string>& code_table);
+    //used to store the code for each char  
+    void huffman_codes (Node* node, std::string code, std::unordered_map<char, std::string>& code_table);
 
-        std::string encode(const std::string&);
-      
-        // pack into uin8_t vectors to compress the size
-        std::vector<uint8_t> pack (const std::string& bits, int& valid_bits);
+    std::string encode(const std::string&);
+    
+    // pack into uin8_t vectors to compress the size
+    std::vector<uint8_t> pack (const std::string& bits, int& valid_bits);
 
-        // unpack the the vectors so that it can be decoded
-        std::string unpack (const std::vector<uint8_t>& bytes, int valid_bits);
+    // unpack the the vectors so that it can be decoded
+    std::string unpack (const std::vector<uint8_t>& bytes, int valid_bits);
 
-        std::string decode(const std::string& bits);
+    std::string decode(const std::string& bits);
 
-        void write_frequency_table(std::ostream& out, const std::unordered_map<char, int>& freq);
+    // write the frequency_table into the binary file
+    void write_frequency_table(std::ostream& out, const std::unordered_map<char, int>& freq);
 
-        std::unordered_map<char, int> read_frequency_table(std::istream& in);
+    // reads the frequency_table from the binary file
+    std::unordered_map<char, int> read_frequency_table(std::istream& in);
 
-        void compress_to_file(const std::string& input, const std::string& filename);
+    // compression into binary file
+    void compress_to_file(const std::string& input, const std::string& filename);
 
-        std::string decompress_from_file(const std::string& filename);
+    //  decompress to original txt
+    std::string decompress_from_file(const std::string& filename);
 
        
 };

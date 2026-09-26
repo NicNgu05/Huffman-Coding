@@ -187,10 +187,10 @@
   
     void huffman_tree::write_frequency_table (std::ostream& out, const std::unordered_map<char, int>& freq) {
         uint32_t count = static_cast<uint32_t>(freq.size());
-        // writes the total number of characters as a 2-byte number
+        // writes the total number of characters as a 4-byte number
         out.write(reinterpret_cast<const char*>(&count), sizeof(count));
         
-        //write the character and frequency of it in 4 bits
+        //write the character and frequency of it in 5 bytes (1 byte: char, 4 bytes: frequency)
         for (const auto& [ch, frequency] : freq) {
             out.write(&ch, sizeof(char));
  
@@ -204,8 +204,10 @@
         std::unordered_map<char, int> freq;
  
         uint32_t count = 0;
+        // read the total number of characters as 4-byte numbers
         in.read(reinterpret_cast<char*>(&count), sizeof(count));
- 
+        
+        // reads the character and frequency of it in 5 bytes (1 byte: char, 4 bytes: frequency)
         for (uint32_t i = 0; i < count; i++) {
             char ch;
             in.read(&ch, sizeof(char));
@@ -218,7 +220,8 @@
  
         return freq;
     }
- 
+    
+    // compresses frequency_table, encoded data and packed bits into the binary file
     void huffman_tree::compress_to_file (const std::string& input, const std::string& filename) {
         auto freq = frequency_data(input);
         std::string bits = encode(input);
@@ -242,8 +245,9 @@
         if (byte_count > 0) {
             out.write(reinterpret_cast<const char*>(packed.data()), packed.size());
         }
-    }
- 
+    }      
+    
+    // decompresses frequency_table, encoded data and packed bits from the binary file
     std::string huffman_tree::decompress_from_file (const std::string& filename) {
         std::ifstream in(filename, std::ios::binary);
         if (!in) {
