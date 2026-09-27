@@ -1,8 +1,5 @@
 #include "huffman.hpp"
 
-
-
-
 static std::string read_file(const std::string& path) {
     std::ifstream in(path, std::ios::binary);
     if (!in) {
@@ -87,7 +84,6 @@ static int run_compare(const std::string& input_path) {
     return 0;
 }
 
-
 int main(int argc, char* argv[]) {
    
     if (argc < 2) {
@@ -113,9 +109,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
         
-
-
-
+}
 
 // used to test if Huffman Algorithm worked properly
     
@@ -214,4 +208,3 @@ void test_huffman_code (const std::string& input) {
         return 0;
     }
     */
-}
