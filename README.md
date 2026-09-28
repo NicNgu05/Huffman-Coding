@@ -36,8 +36,7 @@ A C++23-capable compiler (tested with g++).
 gzip must be installed and available on PATH for the compare subcommand. If it isn't, compare will still run and compress with this program, but will print a warning and skip the gzip comparison.
 File format (.huff)
 
-Compressed files store the character frequency table rather than the tree itself — the tree is rebuilt deterministically from the frequencies on decompression. Layout, in order:
-
+Compressed files store the character frequency table rather than the tree itself - the tree is rebuilt deterministically from the frequencies on decompression. Layout, in order:
 
 - Number of distinct symbols: uint32_t (n)
 - n × (symbol, frequency) pairs: n × (char + uint32_t)
@@ -49,7 +48,3 @@ Known limitations
 Per-file overhead is 9 + 5n bytes, where n is the number of distinct characters in the input. This means that small or highly varied inputs can end up larger after compression than the original.
 
 Only exploits single-character frequency, not repeated substrings which means that compression ratio will generally be worse than gzip on files with repeated multi-character patterns.
-
-Project structure
-- main.cpp -> CLI entry point; argument parsing and file I/O around the three subcommands.
-- huffman.cpp / huffman.hpp -> the huffman_tree implementation.
